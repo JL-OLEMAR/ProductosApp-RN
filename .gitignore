@@ -1,5 +1,8 @@
 *.vscode/
 .vscode/
+yarn.lock
+yarn.lock*
+yarn.lock/*
 
 # OSX
 #

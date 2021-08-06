@@ -1,0 +1,32 @@
+# Login en heroku
+POST https://cafe-react-native-backend.herokuapp.com/api/auth/login
+content-type: application/json
+
+{
+  "correo": "test1@test.com",
+  "password": "123456"
+}
+
+###
+
+# Login en my ip privada
+POST http://192.168.110.70:8080/api/auth/login
+content-type: application/json
+
+{
+  "correo": "test1@test.com",
+  "password": "123456"
+}
+
+###
+
+# New user
+POST http://192.168.110.70:8080/api/usuarios
+content-type: application/json
+
+{
+  "nombre": "test 2",
+  "correo": "test2@test.com",
+  "password": "123456",
+  "rol": "USER_ROLE"
+}
