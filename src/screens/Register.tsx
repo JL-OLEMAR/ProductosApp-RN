@@ -1,7 +1,8 @@
-import React from 'react'
-import { KeyboardAvoidingView, Platform, Text, TextInput, View, TouchableOpacity, Keyboard } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { KeyboardAvoidingView, Platform, Text, TextInput, View, TouchableOpacity, Keyboard, Alert } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 
+import { AuthContext } from '../context/AuthContext'
 import { useForm } from '../hooks/useForm'
 import { WhiteLogo } from '../components/WhiteLogo'
 import { loginStyles } from '../theme/loginTheme'
@@ -9,15 +10,26 @@ import { loginStyles } from '../theme/loginTheme'
 interface Props extends StackScreenProps<any, any>{}
 
 export const Register = ({ navigation }: Props) => {
+  const { signUp, errorMessage, removeError } = useContext(AuthContext)
+
   const { name, email, password, onChange } = useForm({
     name: '',
     email: '',
     password: ''
   })
 
+  useEffect(() => {
+    if (errorMessage.length === 0) return
+    Alert.alert('Error al crear usuario', errorMessage, [{
+      text: 'Ok',
+      onPress: removeError
+    }])
+  }, [errorMessage])
+
   const onRegister = () => {
     console.log({ name, email, password })
     Keyboard.dismiss()
+    signUp({ nombre: name, correo: email, password })
   }
 
   return (

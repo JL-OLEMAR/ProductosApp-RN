@@ -5,11 +5,14 @@ import { AuthContext } from '../context/AuthContext'
 import { Login } from '../screens/Login'
 import { Register } from '../screens/Register'
 import { Protected } from '../screens/Protected'
+import { Loading } from '../screens/Loading'
 
 const Stack = createStackNavigator()
 
 export const Navigator = () => {
   const { status } = useContext(AuthContext)
+
+  if (status === 'checking') return <Loading />
 
   return (
     <Stack.Navigator
