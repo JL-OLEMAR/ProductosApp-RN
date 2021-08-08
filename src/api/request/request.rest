@@ -1,4 +1,4 @@
-@hostLocal = http://192.168.108.69:8080/api
+@hostLocal = http://192.168.131.69:8080/api
 @hostHeruku = https://cafe-react-native-backend.herokuapp.com/api
 
 ### Login en heroku
@@ -11,7 +11,7 @@ content-type: application/json
   "password": "123456"
 }
 
-### Login en my ip privada
+### Login en mi ip privada
 
 POST {{hostLocal}}/auth/login
 content-type: application/json
@@ -21,7 +21,7 @@ content-type: application/json
   "password": "123456"
 }
 
-### New user
+### Nuevo usuario
 
 POST {{hostLocal}}/usuarios
 content-type: application/json
@@ -31,4 +31,12 @@ content-type: application/json
   "correo": "test5@test.com",
   "password": "123456"
 }
+
+### Mostrar todas las categorias
+
+GET {{hostLocal}}/categorias
+
+### Mostrar todos los productos
+
+GET {{hostLocal}}/productos
 
