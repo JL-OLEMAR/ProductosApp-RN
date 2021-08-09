@@ -1,7 +1,8 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, TextInput, Button, Image } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { Picker } from '@react-native-picker/picker'
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import { ProductsContext } from '../context/ProductsContext'
@@ -13,10 +14,11 @@ interface Props extends StackScreenProps<ProductsStackParams, 'Product'>{}
 
 export const Product = ({ navigation, route }: Props) => {
   const { id = '', name = '' } = route.params
-  const { loadProductById, addProducts, updateProducts } = useContext(ProductsContext)
+  const [tempUri, setTempUri] = useState<string>()
+  const { loadProductById, addProducts, updateProducts, uploadImage } = useContext(ProductsContext)
   const { categories } = useCategories()
 
-  const { _id, categoriaId, nombre, img, form, onChange, setFormValue } = useForm({
+  const { _id, categoriaId, nombre, img, onChange, setFormValue } = useForm({
     _id: id,
     categoriaId: '',
     nombre: name,
@@ -50,6 +52,30 @@ export const Product = ({ navigation, route }: Props) => {
       const newProduct = await addProducts(tempCategoriaId, nombre)
       onChange(newProduct._id, '_id')
     }
+  }
+
+  const takePhoto = () => {
+    launchCamera({
+      mediaType: 'photo',
+      quality: 0.5
+    }, (resp) => {
+      if (resp.didCancel) return
+      if (!resp.assets?.[0].uri) return
+      setTempUri(resp.assets?.[0].uri)
+      uploadImage(resp, _id)
+    })
+  }
+
+  const takePhotoFromGallery = () => {
+    launchImageLibrary({
+      mediaType: 'photo',
+      quality: 0.5
+    }, (resp) => {
+      if (resp.didCancel) return
+      if (!resp.assets?.[0].uri) return
+      setTempUri(resp.assets?.[0].uri)
+      uploadImage(resp, _id)
+    })
   }
 
   return (
@@ -98,8 +124,7 @@ export const Product = ({ navigation, route }: Props) => {
                 <Icon name='camera-outline' size={20} color='white' />
                 <Button
                   title='Cámara'
-                  // TODO: hacer handleClick
-                  onPress={() => {}}
+                  onPress={takePhoto}
                   color='#5856D6'
                 />
               </View>
@@ -110,8 +135,7 @@ export const Product = ({ navigation, route }: Props) => {
                 <Icon name='cloud-upload-outline' size={20} color='white' />
                 <Button
                   title='Galería'
-                  // TODO: hacer handleClick
-                  onPress={() => {}}
+                  onPress={takePhotoFromGallery}
                   color='#5856D6'
                 />
               </View>
@@ -120,7 +144,7 @@ export const Product = ({ navigation, route }: Props) => {
         }
 
         {
-          (img.length > 0) && (
+          (img.length > 0 && !tempUri) && (
             <Image
               source={{ uri: img }}
               style={{
@@ -132,7 +156,19 @@ export const Product = ({ navigation, route }: Props) => {
           )
         }
 
-        {/* TODO: Mostrar imagen temporal */}
+        {/* Mostrar imagen temporal */}
+        {
+          (tempUri) && (
+            <Image
+              source={{ uri: tempUri }}
+              style={{
+                height: 300,
+                marginTop: 20,
+                width: '100%'
+              }}
+            />
+          )
+        }
 
       </ScrollView>
     </View>

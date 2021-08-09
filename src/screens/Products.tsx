@@ -27,7 +27,7 @@ export const Products = ({ navigation }: Props) => {
     })
   }, [])
 
-  // TODO: Pull to refresh
+  // Pull to refresh
   const loadProductsFromBackend = async () => {
     setIsRefreshing(true)
     await loadProducts()
