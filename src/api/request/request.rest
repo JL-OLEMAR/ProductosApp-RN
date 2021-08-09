@@ -1,4 +1,4 @@
-@hostLocal = http://192.168.131.69:8080/api
+@hostLocal = http://192.168.57.69:8080/api
 @hostHeruku = https://cafe-react-native-backend.herokuapp.com/api
 
 ### Login en heroku
@@ -36,7 +36,7 @@ content-type: application/json
 
 GET {{hostLocal}}/categorias
 
-### Mostrar todos los productos
+### Mostrar los 50 primeros productos
 
-GET {{hostLocal}}/productos
+GET {{hostLocal}}/productos?limite=50
 

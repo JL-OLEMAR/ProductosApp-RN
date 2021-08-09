@@ -26,7 +26,6 @@ export interface Usuario {
 }
 
 // Productos
-
 export interface ProductoResponse {
   total: number
   productos: Producto[]
@@ -41,7 +40,19 @@ export interface Producto {
   img?: string
 }
 
+// Categorias
+export interface CategoriesResponse {
+  total: number
+  categorias: Categoria[]
+}
+
 export interface Categoria {
+  _id: string
+  nombre: string
+  usuario?: UserCat
+}
+
+export interface UserCat {
   _id: string
   nombre: string
 }

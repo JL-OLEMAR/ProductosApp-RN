@@ -2,7 +2,7 @@ import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 // your ip privada
-const baseURL = 'http://192.168.131.69:8080/api'
+const baseURL = 'http://192.168.57.69:8080/api'
 
 const cafeApi = axios.create({ baseURL })
 
